@@ -9,7 +9,8 @@ const axios = require("axios");
 async function main() {
   console.log("Executing swap on 1inch Protocol...");
   
-  const ONEINCH_API_URL = "https://api.1inch.io/v5.0/1";
+  const chainId = process.env.CHAIN_ID ? parseInt(process.env.CHAIN_ID) : 1;
+  const ONEINCH_API_URL = `https://api.1inch.io/v5.0/${chainId}`;
   
   const WETH = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2";
   const USDC = "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48";

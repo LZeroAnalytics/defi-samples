@@ -45,7 +45,8 @@ async function main() {
     
     console.log(`Getting quote for ${formatAmount(amountIn, tokenInDecimals)} ${tokenInSymbol} to ${tokenOutSymbol}...`);
     
-    const quoteUrl = `https://api.uniswap.org/v1/quote?protocols=v2%2Cv3%2Cmixed&tokenInAddress=${tokenIn}&tokenInChainId=1&tokenOutAddress=${tokenOut}&tokenOutChainId=1&amount=${amountIn.toString()}&type=exactIn`;
+    const chainId = process.env.CHAIN_ID ? parseInt(process.env.CHAIN_ID) : 1;
+    const quoteUrl = `https://api.uniswap.org/v1/quote?protocols=v2%2Cv3%2Cmixed&tokenInAddress=${tokenIn}&tokenInChainId=${chainId}&tokenOutAddress=${tokenOut}&tokenOutChainId=${chainId}&amount=${amountIn.toString()}&type=exactIn`;
     
     const quoteResponse = await axios.get(quoteUrl);
     const quoteData = quoteResponse.data;
@@ -61,7 +62,7 @@ async function main() {
     
     console.log(`Getting swap route...`);
     
-    const swapUrl = `https://api.uniswap.org/v1/quote?protocols=v2%2Cv3%2Cmixed&tokenInAddress=${tokenIn}&tokenInChainId=1&tokenOutAddress=${tokenOut}&tokenOutChainId=1&amount=${amountIn.toString()}&type=exactIn&slippageTolerance=${slippage}&recipient=${address}`;
+    const swapUrl = `https://api.uniswap.org/v1/quote?protocols=v2%2Cv3%2Cmixed&tokenInAddress=${tokenIn}&tokenInChainId=${chainId}&tokenOutAddress=${tokenOut}&tokenOutChainId=${chainId}&amount=${amountIn.toString()}&type=exactIn&slippageTolerance=${slippage}&recipient=${address}`;
     
     const swapResponse = await axios.get(swapUrl);
     const swapData = swapResponse.data;

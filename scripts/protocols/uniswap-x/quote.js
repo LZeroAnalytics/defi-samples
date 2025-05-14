@@ -62,7 +62,8 @@ async function main() {
       console.log(`\nGetting quote for ${formatAmount(quote.amountIn, quote.tokenInDecimals)} ${quote.tokenInSymbol} to ${quote.tokenOutSymbol}...`);
       
       try {
-        const url = `https://api.uniswap.org/v1/quote?protocols=v2%2Cv3%2Cmixed&tokenInAddress=${quote.tokenIn}&tokenInChainId=1&tokenOutAddress=${quote.tokenOut}&tokenOutChainId=1&amount=${quote.amountIn.toString()}&type=exactIn`;
+        const chainId = process.env.CHAIN_ID ? parseInt(process.env.CHAIN_ID) : 1;
+        const url = `https://api.uniswap.org/v1/quote?protocols=v2%2Cv3%2Cmixed&tokenInAddress=${quote.tokenIn}&tokenInChainId=${chainId}&tokenOutAddress=${quote.tokenOut}&tokenOutChainId=${chainId}&amount=${quote.amountIn.toString()}&type=exactIn`;
         
         const response = await axios.get(url);
         const quoteData = response.data;

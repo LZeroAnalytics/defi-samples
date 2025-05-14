@@ -30,7 +30,8 @@ async function main() {
     console.log("\nAttempting to fetch protocol information from Uniswap API...");
     
     try {
-      const response = await axios.get("https://api.uniswap.org/v1/pools/v3?chainId=1&first=5");
+      const chainId = process.env.CHAIN_ID ? parseInt(process.env.CHAIN_ID) : 1;
+      const response = await axios.get(`https://api.uniswap.org/v1/pools/v3?chainId=${chainId}&first=5`);
       
       if (response.data && response.data.data && response.data.data.pools) {
         const pools = response.data.data.pools;

@@ -9,7 +9,9 @@ const axios = require("axios");
 async function main() {
   console.log("Querying KyberSwap information...");
   
-  const KYBERSWAP_API_URL = "https://aggregator-api.kyberswap.com/ethereum";
+  const chainId = process.env.CHAIN_ID ? parseInt(process.env.CHAIN_ID) : 1;
+  const chainName = chainId === 1 ? "ethereum" : `chain-${chainId}`;
+  const KYBERSWAP_API_URL = `https://aggregator-api.kyberswap.com/${chainName}`;
   
   const WETH = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2";
   const USDC = "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48";
