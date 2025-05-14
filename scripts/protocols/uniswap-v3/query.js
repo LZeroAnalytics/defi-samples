@@ -78,11 +78,11 @@ async function main() {
       console.log(`Tick: ${slot0.tick}`);
       
       const sqrtPriceX96 = slot0.sqrtPriceX96;
-      const priceRaw = (sqrtPriceX96 * sqrtPriceX96 * BigInt(10 ** token1Decimals)) / (BigInt(2) ** 192n * BigInt(10 ** token0Decimals));
+      const priceRaw = (sqrtPriceX96 * sqrtPriceX96 * BigInt(10 ** Number(token1Decimals))) / (BigInt(2) ** 192n * BigInt(10 ** Number(token0Decimals)));
       
       console.log(`Price: 1 ${token0Symbol} = ${formatAmount(priceRaw, 0)} ${token1Symbol}`);
       
-      const priceInverse = (BigInt(10 ** token0Decimals) * BigInt(2) ** 192n) / (sqrtPriceX96 * sqrtPriceX96 / BigInt(10 ** token1Decimals));
+      const priceInverse = (BigInt(10 ** Number(token0Decimals)) * BigInt(2) ** 192n) / (sqrtPriceX96 * sqrtPriceX96 / BigInt(10 ** Number(token1Decimals)));
       console.log(`Price: 1 ${token1Symbol} = ${formatAmount(priceInverse, 0)} ${token0Symbol}`);
     }
     

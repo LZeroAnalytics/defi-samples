@@ -82,7 +82,7 @@ async function main() {
         
         console.log(`\nPrice for ${formatAmount(pair.sellAmount, pair.sellDecimals)} ${pair.sellSymbol} to ${pair.buySymbol}:`);
         console.log(`Expected output: ${formatAmount(BigInt(priceData.buyAmount), pair.buyDecimals)} ${pair.buySymbol}`);
-        console.log(`Price: 1 ${pair.sellSymbol} = ${formatAmount(BigInt(priceData.price) * BigInt(10 ** pair.buyDecimals), pair.buyDecimals)} ${pair.buySymbol}`);
+        console.log(`Price: 1 ${pair.sellSymbol} = ${formatAmount(BigInt(priceData.price) * BigInt(10 ** Number(pair.buyDecimals)), pair.buyDecimals)} ${pair.buySymbol}`);
         console.log(`Sources: ${JSON.stringify(priceData.sources.filter(s => s.proportion > "0"), null, 2)}`);
         console.log(`Gas estimate: ${priceData.estimatedGas}`);
       } catch (error) {

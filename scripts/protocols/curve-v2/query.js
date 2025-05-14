@@ -92,7 +92,7 @@ async function main() {
     try {
       const usdcAmount = await threePool.get_dy(0, 1, daiAmount);
       console.log(`1000 DAI = ${formatAmount(usdcAmount, 6)} USDC`);
-      console.log(`Rate: 1 DAI = ${formatAmount(usdcAmount * BigInt(10 ** 12) / daiAmount, 6)} USDC`);
+      console.log(`Rate: 1 DAI = ${formatAmount(usdcAmount * BigInt(10 ** Number(12)) / daiAmount, 6)} USDC`);
     } catch (error) {
       console.log(`Error getting exchange rate: ${error.message}`);
     }

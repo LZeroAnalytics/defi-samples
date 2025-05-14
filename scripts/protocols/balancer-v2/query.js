@@ -91,7 +91,7 @@ async function main() {
         const wethBalance = wethDaiBalances[wethIndex];
         const daiBalance = wethDaiBalances[daiIndex];
         
-        const spotPrice = (daiBalance * BigInt(10 ** wethDecimals)) / (wethBalance * BigInt(10 ** daiDecimals));
+        const spotPrice = (daiBalance * BigInt(10 ** Number(wethDecimals))) / (wethBalance * BigInt(10 ** Number(daiDecimals)));
         
         console.log(`\nSpot Price: 1 WETH = ${formatAmount(spotPrice, 0)} DAI`);
         console.log(`Spot Price: 1 DAI = ${formatAmount(BigInt(10 ** 36) / spotPrice, 18)} WETH`);
@@ -112,7 +112,7 @@ async function main() {
         const wethBalance = wethUsdcBalances[wethIndex];
         const usdcBalance = wethUsdcBalances[usdcIndex];
         
-        const spotPrice = (usdcBalance * BigInt(10 ** wethDecimals)) / (wethBalance * BigInt(10 ** usdcDecimals));
+        const spotPrice = (usdcBalance * BigInt(10 ** Number(wethDecimals))) / (wethBalance * BigInt(10 ** Number(usdcDecimals)));
         
         console.log(`\nSpot Price: 1 WETH = ${formatAmount(spotPrice, 0)} USDC`);
         console.log(`Spot Price: 1 USDC = ${formatAmount(BigInt(10 ** 24) / spotPrice, 18)} WETH`);
