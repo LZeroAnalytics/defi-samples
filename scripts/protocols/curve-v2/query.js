@@ -4,17 +4,20 @@
 
 const { ethers } = require("hardhat");
 const { formatAmount } = require("../../utils/helpers");
+const { getTokenAddress } = require("../../utils/tokens");
+const { getProtocolAddress } = require("../../utils/protocols");
 
 async function main() {
   console.log("Querying Curve V2 pool information...");
   
-  const CURVE_REGISTRY_ADDRESS = "0x90E00ACe148ca3b23Ac1bC8C240C2a7Dd9c2d7f5"; // Curve Registry
-  const CURVE_FACTORY_ADDRESS = "0xB9fC157394Af804a3578134A6585C0dc9cc990d4"; // Curve Factory
+  const chainId = process.env.CHAIN_ID ? parseInt(process.env.CHAIN_ID) : 1;
+  const CURVE_REGISTRY_ADDRESS = getProtocolAddress("curve", "registry", chainId);
+  const CURVE_FACTORY_ADDRESS = getProtocolAddress("curve", "factory", chainId);
   
-  const WETH = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2";
-  const USDC = "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48";
-  const USDT = "0xdAC17F958D2ee523a2206206994597C13D831ec7";
-  const DAI = "0x6B175474E89094C44Da98b954EedeAC495271d0F";
+  const WETH = getTokenAddress("WETH", chainId);
+  const USDC = getTokenAddress("USDC", chainId);
+  const USDT = getTokenAddress("USDT", chainId);
+  const DAI = getTokenAddress("DAI", chainId);
   
   const TRI_CRYPTO_POOL = "0xD51a44d3FaE010294C616388b506AcdA1bfAAE46"; // tricrypto2
   const THREE_POOL = "0xbEbc44782C7dB0a1A60Cb6fe97d0b483032FF1C7"; // 3pool (DAI/USDC/USDT)
