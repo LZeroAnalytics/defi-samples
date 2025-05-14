@@ -86,7 +86,7 @@ async function main() {
         
         console.log(`Quote details:`);
         console.log(`- Expected output: ${formatAmount(BigInt(quoteData.buyAmount), request.buyDecimals)} ${request.buySymbol}`);
-        console.log(`- Price: 1 ${request.sellSymbol} = ${formatAmount(BigInt(quoteData.price) * BigInt(10 ** request.buyDecimals), request.buyDecimals)} ${request.buySymbol}`);
+        console.log(`- Price: 1 ${request.sellSymbol} = ${formatAmount(BigInt(quoteData.price) * BigInt(10 ** Number(request.buyDecimals)), request.buyDecimals)} ${request.buySymbol}`);
         console.log(`- Gas estimate: ${quoteData.estimatedGas}`);
         console.log(`- Gas price: ${ethers.formatUnits(quoteData.gasPrice, 'gwei')} gwei`);
         console.log(`- Protocol fee: ${ethers.formatEther(quoteData.protocolFee)} ETH`);

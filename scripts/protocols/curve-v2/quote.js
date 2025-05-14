@@ -49,19 +49,19 @@ async function main() {
     const usdcFromDai = await threePool.get_dy(0, 1, daiAmount);
     
     console.log(`Quote: 1000 DAI = ${formatAmount(usdcFromDai, usdcDecimals)} USDC`);
-    console.log(`Rate: 1 DAI = ${formatAmount(usdcFromDai * BigInt(10 ** 12) / daiAmount, usdcDecimals)} USDC`);
+    console.log(`Rate: 1 DAI = ${formatAmount(usdcFromDai * BigInt(10 ** Number(12)) / daiAmount, usdcDecimals)} USDC`);
     
     const usdcAmount = ethers.parseUnits("1000", 6); // 1000 USDC
     const usdtFromUsdc = await threePool.get_dy(1, 2, usdcAmount);
     
     console.log(`Quote: 1000 USDC = ${formatAmount(usdtFromUsdc, usdtDecimals)} USDT`);
-    console.log(`Rate: 1 USDC = ${formatAmount(usdtFromUsdc * BigInt(10 ** 0) / usdcAmount, usdtDecimals)} USDT`);
+    console.log(`Rate: 1 USDC = ${formatAmount(usdtFromUsdc * BigInt(10 ** Number(0)) / usdcAmount, usdtDecimals)} USDT`);
     
     const usdtAmount = ethers.parseUnits("1000", 6); // 1000 USDT
     const daiFromUsdt = await threePool.get_dy(2, 0, usdtAmount);
     
     console.log(`Quote: 1000 USDT = ${formatAmount(daiFromUsdt, daiDecimals)} DAI`);
-    console.log(`Rate: 1 USDT = ${formatAmount(daiFromUsdt * BigInt(10 ** 12) / usdtAmount, daiDecimals)} DAI`);
+    console.log(`Rate: 1 USDT = ${formatAmount(daiFromUsdt * BigInt(10 ** Number(12)) / usdtAmount, daiDecimals)} DAI`);
     
     console.log("\nGetting quotes from tricrypto2 pool...");
     const triCryptoPool = new ethers.Contract(TRI_CRYPTO_POOL, poolAbi, ethers.provider);
@@ -74,7 +74,7 @@ async function main() {
       const wbtcDecimals = await wbtcContract.decimals();
       
       console.log(`Quote: 10000 USDT = ${formatAmount(wbtcFromUsdt, wbtcDecimals)} WBTC`);
-      console.log(`Rate: 1 USDT = ${formatAmount(wbtcFromUsdt * BigInt(10 ** 0) / usdtAmountTri, wbtcDecimals)} WBTC`);
+      console.log(`Rate: 1 USDT = ${formatAmount(wbtcFromUsdt * BigInt(10 ** Number(0)) / usdtAmountTri, wbtcDecimals)} WBTC`);
       
       const wbtcAmount = ethers.parseUnits("1", 8); // 1 WBTC
       const wethFromWbtc = await triCryptoPool.get_dy(1, 2, wbtcAmount);

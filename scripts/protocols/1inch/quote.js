@@ -85,7 +85,7 @@ async function main() {
         
         console.log(`Quote details:`);
         console.log(`- Expected output: ${formatAmount(BigInt(quoteData.toAmount), request.toDecimals)} ${request.toSymbol}`);
-        console.log(`- Price: 1 ${request.fromSymbol} = ${formatAmount(BigInt(quoteData.toAmount) * BigInt(10 ** request.fromDecimals) / request.amount, request.toDecimals)} ${request.toSymbol}`);
+        console.log(`- Price: 1 ${request.fromSymbol} = ${formatAmount(BigInt(quoteData.toAmount) * BigInt(10 ** Number(request.fromDecimals)) / request.amount, request.toDecimals)} ${request.toSymbol}`);
         console.log(`- Gas estimate: ${quoteData.estimatedGas}`);
         
         if (quoteData.protocols && quoteData.protocols.length > 0) {

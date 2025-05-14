@@ -124,7 +124,7 @@ async function main() {
         console.log(`- WETH reserve: ${formatAmount(wethReserve, wethDecimals)} WETH`);
         console.log(`- USDC reserve: ${formatAmount(usdcReserve, usdcDecimals)} USDC`);
         
-        const wethToUsdcPrice = (usdcReserve * BigInt(10 ** wethDecimals)) / (wethReserve * BigInt(10 ** usdcDecimals));
+        const wethToUsdcPrice = (usdcReserve * BigInt(10 ** Number(wethDecimals))) / (wethReserve * BigInt(10 ** Number(usdcDecimals)));
         console.log(`- Price: 1 WETH = ${formatAmount(wethToUsdcPrice, 0)} USDC`);
       }
     } catch (error) {

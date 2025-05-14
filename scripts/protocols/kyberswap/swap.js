@@ -69,7 +69,7 @@ async function main() {
     
     console.log(`Swap details:`);
     console.log(`- Expected output: ${formatAmount(BigInt(swapData.outputAmount), tokenOutDecimals)} ${tokenOutSymbol}`);
-    console.log(`- Price: 1 ${tokenInSymbol} = ${formatAmount(BigInt(swapData.outputAmount) * BigInt(10 ** tokenInDecimals) / amountIn, tokenOutDecimals)} ${tokenOutSymbol}`);
+    console.log(`- Price: 1 ${tokenInSymbol} = ${formatAmount(BigInt(swapData.outputAmount) * BigInt(10 ** Number(tokenInDecimals)) / amountIn, tokenOutDecimals)} ${tokenOutSymbol}`);
     console.log(`- Gas estimate: ${swapData.totalGas}`);
     
     if (swapData.routeSummary) {

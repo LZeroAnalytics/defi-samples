@@ -95,7 +95,7 @@ async function main() {
         
         console.log(`Quote details:`);
         console.log(`- Expected output: ${formatAmount(BigInt(quoteData.outputAmount), request.tokenOutDecimals)} ${request.tokenOutSymbol}`);
-        console.log(`- Price: 1 ${request.tokenInSymbol} = ${formatAmount(BigInt(quoteData.outputAmount) * BigInt(10 ** request.tokenInDecimals) / request.amountIn, request.tokenOutDecimals)} ${request.tokenOutSymbol}`);
+        console.log(`- Price: 1 ${request.tokenInSymbol} = ${formatAmount(BigInt(quoteData.outputAmount) * BigInt(10 ** Number(request.tokenInDecimals)) / request.amountIn, request.tokenOutDecimals)} ${request.tokenOutSymbol}`);
         console.log(`- Gas estimate: ${quoteData.totalGas}`);
         
         if (quoteData.routeSummary) {

@@ -87,7 +87,7 @@ async function main() {
         const wethBalance = wethDaiPoolTokens.balances[wethIndex];
         const daiBalance = wethDaiPoolTokens.balances[daiIndex];
         
-        const spotPrice = (daiBalance * BigInt(10 ** wethDecimals)) / (wethBalance * BigInt(10 ** daiDecimals));
+        const spotPrice = (daiBalance * BigInt(10 ** Number(wethDecimals))) / (wethBalance * BigInt(10 ** Number(daiDecimals)));
         
         console.log(`Fallback quote using pool balances:`);
         console.log(`Quote: 1 WETH ≈ ${formatAmount(spotPrice, 0)} DAI`);
@@ -138,7 +138,7 @@ async function main() {
         const wethBalance = wethUsdcPoolTokens.balances[wethUsdcIndex];
         const usdcBalance = wethUsdcPoolTokens.balances[usdcIndex];
         
-        const spotPrice = (usdcBalance * BigInt(10 ** wethDecimals)) / (wethBalance * BigInt(10 ** usdcDecimals));
+        const spotPrice = (usdcBalance * BigInt(10 ** Number(wethDecimals))) / (wethBalance * BigInt(10 ** Number(usdcDecimals)));
         
         console.log(`Fallback quote using pool balances:`);
         console.log(`Quote: 1 WETH ≈ ${formatAmount(spotPrice, 0)} USDC`);

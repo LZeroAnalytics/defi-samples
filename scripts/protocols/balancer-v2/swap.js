@@ -72,8 +72,8 @@ async function main() {
     const wethBalance = balances[wethIndex];
     const poolDaiBalance = balances[daiIndex];
     
-    const spotPrice = (poolDaiBalance * BigInt(10 ** wethDecimals)) / (wethBalance * BigInt(10 ** daiDecimals));
-    const expectedAmountOut = (amountIn * spotPrice) / BigInt(10 ** wethDecimals);
+    const spotPrice = (poolDaiBalance * BigInt(10 ** Number(wethDecimals))) / (wethBalance * BigInt(10 ** Number(daiDecimals)));
+    const expectedAmountOut = (amountIn * spotPrice) / BigInt(10 ** Number(wethDecimals));
     
     console.log(`Expected output (approximation): ${formatAmount(expectedAmountOut, daiDecimals)} ${daiSymbol}`);
     

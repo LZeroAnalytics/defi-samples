@@ -74,7 +74,7 @@ async function main() {
     
     console.log(`Swap details:`);
     console.log(`- Expected output: ${formatAmount(BigInt(swapData.toAmount), toTokenDecimals)} ${toTokenSymbol}`);
-    console.log(`- Price: 1 ${fromTokenSymbol} = ${formatAmount(BigInt(swapData.toAmount) * BigInt(10 ** fromTokenDecimals) / amount, toTokenDecimals)} ${toTokenSymbol}`);
+    console.log(`- Price: 1 ${fromTokenSymbol} = ${formatAmount(BigInt(swapData.toAmount) * BigInt(10 ** Number(fromTokenDecimals)) / amount, toTokenDecimals)} ${toTokenSymbol}`);
     console.log(`- Gas estimate: ${swapData.tx.gas}`);
     
     console.log(`Executing swap...`);
