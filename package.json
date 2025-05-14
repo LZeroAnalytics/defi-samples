@@ -1,0 +1,32 @@
+{
+  "name": "defi-samples",
+  "version": "1.0.0",
+  "description": "Sample scripts for interacting with DeFi protocols",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "defi",
+    "ethereum",
+    "hardhat",
+    "uniswap",
+    "sushiswap",
+    "pancakeswap",
+    "curve",
+    "balancer",
+    "1inch",
+    "0x",
+    "kyberswap"
+  ],
+  "author": "Bloctopus",
+  "license": "MIT",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^4.0.0",
+    "hardhat": "^2.19.4"
+  },
+  "dependencies": {
+    "axios": "^1.6.2",
+    "dotenv": "^16.3.1"
+  }
+}
