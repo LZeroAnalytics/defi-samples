@@ -4,18 +4,21 @@
 
 const { ethers } = require("hardhat");
 const { formatAmount } = require("../../utils/helpers");
+const { getTokenAddress } = require("../../utils/tokens");
+const { getProtocolAddress } = require("../../utils/protocols");
 
 async function main() {
   console.log("Getting quotes from Curve V2...");
   
+  const chainId = process.env.CHAIN_ID ? parseInt(process.env.CHAIN_ID) : 1;
   const THREE_POOL = "0xbEbc44782C7dB0a1A60Cb6fe97d0b483032FF1C7"; // 3pool (DAI/USDC/USDT)
   const TRI_CRYPTO_POOL = "0xD51a44d3FaE010294C616388b506AcdA1bfAAE46"; // tricrypto2
   
-  const WETH = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2";
-  const USDC = "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48";
-  const USDT = "0xdAC17F958D2ee523a2206206994597C13D831ec7";
-  const DAI = "0x6B175474E89094C44Da98b954EedeAC495271d0F";
-  const WBTC = "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599";
+  const WETH = getTokenAddress("WETH", chainId);
+  const USDC = getTokenAddress("USDC", chainId);
+  const USDT = getTokenAddress("USDT", chainId);
+  const DAI = getTokenAddress("DAI", chainId);
+  const WBTC = getTokenAddress("WBTC", chainId);
   
   const poolAbi = [
     "function coins(uint256 i) external view returns (address)",
@@ -49,19 +52,19 @@ async function main() {
     const usdcFromDai = await threePool.get_dy(0, 1, daiAmount);
     
     console.log(`Quote: 1000 DAI = ${formatAmount(usdcFromDai, usdcDecimals)} USDC`);
-    console.log(`Rate: 1 DAI = ${formatAmount(usdcFromDai * BigInt(10 ** 12) / daiAmount, usdcDecimals)} USDC`);
+    console.log(`Rate: 1 DAI = ${formatAmount(usdcFromDai * BigInt(10 ** Number(12)) / daiAmount, usdcDecimals)} USDC`);
     
     const usdcAmount = ethers.parseUnits("1000", 6); // 1000 USDC
     const usdtFromUsdc = await threePool.get_dy(1, 2, usdcAmount);
     
     console.log(`Quote: 1000 USDC = ${formatAmount(usdtFromUsdc, usdtDecimals)} USDT`);
-    console.log(`Rate: 1 USDC = ${formatAmount(usdtFromUsdc * BigInt(10 ** 0) / usdcAmount, usdtDecimals)} USDT`);
+    console.log(`Rate: 1 USDC = ${formatAmount(usdtFromUsdc * BigInt(10 ** Number(0)) / usdcAmount, usdtDecimals)} USDT`);
     
     const usdtAmount = ethers.parseUnits("1000", 6); // 1000 USDT
     const daiFromUsdt = await threePool.get_dy(2, 0, usdtAmount);
     
     console.log(`Quote: 1000 USDT = ${formatAmount(daiFromUsdt, daiDecimals)} DAI`);
-    console.log(`Rate: 1 USDT = ${formatAmount(daiFromUsdt * BigInt(10 ** 12) / usdtAmount, daiDecimals)} DAI`);
+    console.log(`Rate: 1 USDT = ${formatAmount(daiFromUsdt * BigInt(10 ** Number(12)) / usdtAmount, daiDecimals)} DAI`);
     
     console.log("\nGetting quotes from tricrypto2 pool...");
     const triCryptoPool = new ethers.Contract(TRI_CRYPTO_POOL, poolAbi, ethers.provider);
@@ -74,7 +77,7 @@ async function main() {
       const wbtcDecimals = await wbtcContract.decimals();
       
       console.log(`Quote: 10000 USDT = ${formatAmount(wbtcFromUsdt, wbtcDecimals)} WBTC`);
-      console.log(`Rate: 1 USDT = ${formatAmount(wbtcFromUsdt * BigInt(10 ** 0) / usdtAmountTri, wbtcDecimals)} WBTC`);
+      console.log(`Rate: 1 USDT = ${formatAmount(wbtcFromUsdt * BigInt(10 ** Number(0)) / usdtAmountTri, wbtcDecimals)} WBTC`);
       
       const wbtcAmount = ethers.parseUnits("1", 8); // 1 WBTC
       const wethFromWbtc = await triCryptoPool.get_dy(1, 2, wbtcAmount);

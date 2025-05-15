@@ -4,15 +4,18 @@
 
 const { ethers } = require("hardhat");
 const { formatAmount } = require("../../utils/helpers");
+const { getTokenAddress } = require("../../utils/tokens");
+const { getProtocolAddress } = require("../../utils/protocols");
 
 async function main() {
   console.log("Querying Uniswap V3 pool information...");
   
-  const FACTORY_ADDRESS = "0x1F98431c8aD98523631AE4a59f267346ea31F984";
+  const chainId = process.env.CHAIN_ID ? parseInt(process.env.CHAIN_ID) : 1;
+  const FACTORY_ADDRESS = getProtocolAddress("uniswapV3", "factory", chainId);
   
-  const WETH = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2";
-  const USDC = "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48";
-  const DAI = "0x6B175474E89094C44Da98b954EedeAC495271d0F";
+  const WETH = getTokenAddress("WETH", chainId);
+  const USDC = getTokenAddress("USDC", chainId);
+  const DAI = getTokenAddress("DAI", chainId);
   
   const factoryAbi = [
     "function getPool(address tokenA, address tokenB, uint24 fee) external view returns (address pool)"
@@ -78,11 +81,11 @@ async function main() {
       console.log(`Tick: ${slot0.tick}`);
       
       const sqrtPriceX96 = slot0.sqrtPriceX96;
-      const priceRaw = (sqrtPriceX96 * sqrtPriceX96 * BigInt(10 ** token1Decimals)) / (BigInt(2) ** 192n * BigInt(10 ** token0Decimals));
+      const priceRaw = (sqrtPriceX96 * sqrtPriceX96 * BigInt(10 ** Number(token1Decimals))) / (BigInt(2) ** 192n * BigInt(10 ** Number(token0Decimals)));
       
       console.log(`Price: 1 ${token0Symbol} = ${formatAmount(priceRaw, 0)} ${token1Symbol}`);
       
-      const priceInverse = (BigInt(10 ** token0Decimals) * BigInt(2) ** 192n) / (sqrtPriceX96 * sqrtPriceX96 / BigInt(10 ** token1Decimals));
+      const priceInverse = (BigInt(10 ** Number(token0Decimals)) * BigInt(2) ** 192n) / (sqrtPriceX96 * sqrtPriceX96 / BigInt(10 ** Number(token1Decimals)));
       console.log(`Price: 1 ${token1Symbol} = ${formatAmount(priceInverse, 0)} ${token0Symbol}`);
     }
     

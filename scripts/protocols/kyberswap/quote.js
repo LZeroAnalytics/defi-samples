@@ -9,7 +9,17 @@ const axios = require("axios");
 async function main() {
   console.log("Getting quotes from KyberSwap...");
   
-  const KYBERSWAP_API_URL = "https://aggregator-api.kyberswap.com/ethereum";
+  const chainId = process.env.CHAIN_ID ? parseInt(process.env.CHAIN_ID) : 1;
+  
+  const supportedChainIds = [1, 56, 137, 42161, 10, 43114, 250, 25, 1313161554, 1101, 8453, 59144, 324];
+  
+  if (!supportedChainIds.includes(chainId)) {
+    console.log(`Chain ID ${chainId} is not supported by KyberSwap API. Using fallback simulation.`);
+    throw new Error("Unsupported chain");
+  }
+  
+  const chainName = chainId === 1 ? "ethereum" : `chain-${chainId}`;
+  const KYBERSWAP_API_URL = `https://aggregator-api.kyberswap.com/${chainName}`;
   
   const WETH = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2";
   const USDC = "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48";
@@ -95,7 +105,7 @@ async function main() {
         
         console.log(`Quote details:`);
         console.log(`- Expected output: ${formatAmount(BigInt(quoteData.outputAmount), request.tokenOutDecimals)} ${request.tokenOutSymbol}`);
-        console.log(`- Price: 1 ${request.tokenInSymbol} = ${formatAmount(BigInt(quoteData.outputAmount) * BigInt(10 ** request.tokenInDecimals) / request.amountIn, request.tokenOutDecimals)} ${request.tokenOutSymbol}`);
+        console.log(`- Price: 1 ${request.tokenInSymbol} = ${formatAmount(BigInt(quoteData.outputAmount) * BigInt(10 ** Number(request.tokenInDecimals)) / request.amountIn, request.tokenOutDecimals)} ${request.tokenOutSymbol}`);
         console.log(`- Gas estimate: ${quoteData.totalGas}`);
         
         if (quoteData.routeSummary) {

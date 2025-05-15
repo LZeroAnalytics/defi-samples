@@ -4,16 +4,19 @@
 
 const { ethers } = require("hardhat");
 const { formatAmount } = require("../../utils/helpers");
+const { getTokenAddress } = require("../../utils/tokens");
+const { getProtocolAddress } = require("../../utils/protocols");
 
 async function main() {
   console.log("Querying Uniswap V2 pair information...");
   
-  const FACTORY_ADDRESS = "0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f";
-  const ROUTER_ADDRESS = "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D";
+  const chainId = process.env.CHAIN_ID ? parseInt(process.env.CHAIN_ID) : 1;
+  const FACTORY_ADDRESS = getProtocolAddress("uniswapV2", "factory", chainId);
+  const ROUTER_ADDRESS = getProtocolAddress("uniswapV2", "router", chainId);
   
-  const WETH = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2";
-  const USDC = "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48";
-  const DAI = "0x6B175474E89094C44Da98b954EedeAC495271d0F";
+  const WETH = getTokenAddress("WETH", chainId);
+  const USDC = getTokenAddress("USDC", chainId);
+  const DAI = getTokenAddress("DAI", chainId);
   
   const factoryAbi = [
     "function getPair(address tokenA, address tokenB) external view returns (address pair)",
@@ -79,8 +82,8 @@ async function main() {
       console.log(`Reserve0: ${formatAmount(reserves[0], token0Decimals)} ${token0Symbol}`);
       console.log(`Reserve1: ${formatAmount(reserves[1], token1Decimals)} ${token1Symbol}`);
       
-      const price0 = reserves[1] * BigInt(10 ** token0Decimals) / (reserves[0] * BigInt(10 ** token1Decimals));
-      const price1 = reserves[0] * BigInt(10 ** token1Decimals) / (reserves[1] * BigInt(10 ** token0Decimals));
+      const price0 = reserves[1] * BigInt(10 ** Number(token0Decimals)) / (reserves[0] * BigInt(10 ** Number(token1Decimals)));
+      const price1 = reserves[0] * BigInt(10 ** Number(token1Decimals)) / (reserves[1] * BigInt(10 ** Number(token0Decimals)));
       
       console.log(`Price: 1 ${token0Symbol} = ${formatAmount(price0, 0)} ${token1Symbol}`);
       console.log(`Price: 1 ${token1Symbol} = ${formatAmount(price1, 0)} ${token0Symbol}`);

@@ -70,7 +70,7 @@ async function main() {
       
       console.log(`Quote: ${formatAmount(quote.amountIn, quote.tokenInDecimals)} ${quote.tokenInSymbol} = ${formatAmount(amountOut, quote.tokenOutDecimals)} ${quote.tokenOutSymbol}`);
       
-      const price = (amountOut * BigInt(10 ** quote.tokenInDecimals)) / (quote.amountIn * BigInt(10 ** quote.tokenOutDecimals));
+      const price = (amountOut * BigInt(10 ** Number(quote.tokenInDecimals))) / (quote.amountIn * BigInt(10 ** Number(quote.tokenOutDecimals)));
       console.log(`Price: 1 ${quote.tokenInSymbol} = ${formatAmount(price, 0)} ${quote.tokenOutSymbol}`);
       
       console.log(`Estimated price impact: < 0.5%`);

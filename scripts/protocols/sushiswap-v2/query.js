@@ -79,8 +79,8 @@ async function main() {
       console.log(`Reserve0: ${formatAmount(reserves[0], token0Decimals)} ${token0Symbol}`);
       console.log(`Reserve1: ${formatAmount(reserves[1], token1Decimals)} ${token1Symbol}`);
       
-      const price0 = reserves[1] * BigInt(10 ** token0Decimals) / (reserves[0] * BigInt(10 ** token1Decimals));
-      const price1 = reserves[0] * BigInt(10 ** token1Decimals) / (reserves[1] * BigInt(10 ** token0Decimals));
+      const price0 = reserves[1] * BigInt(10 ** Number(token0Decimals)) / (reserves[0] * BigInt(10 ** Number(token1Decimals)));
+      const price1 = reserves[0] * BigInt(10 ** Number(token1Decimals)) / (reserves[1] * BigInt(10 ** Number(token0Decimals)));
       
       console.log(`Price: 1 ${token0Symbol} = ${formatAmount(price0, 0)} ${token1Symbol}`);
       console.log(`Price: 1 ${token1Symbol} = ${formatAmount(price1, 0)} ${token0Symbol}`);
