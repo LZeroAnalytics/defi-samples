@@ -4,15 +4,18 @@
 
 const { ethers } = require("hardhat");
 const { formatAmount } = require("../../utils/helpers");
+const { getTokenAddress } = require("../../utils/tokens");
+const { getProtocolAddress } = require("../../utils/protocols");
 
 async function main() {
   console.log("Getting quotes from Uniswap V2...");
   
-  const ROUTER_ADDRESS = "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D";
+  const chainId = process.env.CHAIN_ID ? parseInt(process.env.CHAIN_ID) : 1;
+  const ROUTER_ADDRESS = getProtocolAddress("uniswapV2", "router", chainId);
   
-  const WETH = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2";
-  const USDC = "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48";
-  const DAI = "0x6B175474E89094C44Da98b954EedeAC495271d0F";
+  const WETH = getTokenAddress("WETH", chainId);
+  const USDC = getTokenAddress("USDC", chainId);
+  const DAI = getTokenAddress("DAI", chainId);
   
   const routerAbi = [
     "function getAmountsOut(uint amountIn, address[] memory path) public view returns (uint[] memory amounts)"
@@ -70,7 +73,7 @@ async function main() {
       
       console.log(`Quote: ${formatAmount(quote.amountIn, quote.tokenInDecimals)} ${quote.tokenInSymbol} = ${formatAmount(amountOut, quote.tokenOutDecimals)} ${quote.tokenOutSymbol}`);
       
-      const price = (amountOut * BigInt(10 ** quote.tokenInDecimals)) / (quote.amountIn * BigInt(10 ** quote.tokenOutDecimals));
+      const price = (amountOut * BigInt(10 ** Number(quote.tokenInDecimals))) / (quote.amountIn * BigInt(10 ** Number(quote.tokenOutDecimals)));
       console.log(`Price: 1 ${quote.tokenInSymbol} = ${formatAmount(price, 0)} ${quote.tokenOutSymbol}`);
       
       console.log(`Estimated price impact: < 0.5%`);

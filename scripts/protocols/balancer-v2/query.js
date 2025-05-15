@@ -4,16 +4,19 @@
 
 const { ethers } = require("hardhat");
 const { formatAmount } = require("../../utils/helpers");
+const { getTokenAddress } = require("../../utils/tokens");
+const { getProtocolAddress } = require("../../utils/protocols");
 
 async function main() {
   console.log("Querying Balancer V2 pool information...");
   
-  const VAULT_ADDRESS = "0xBA12222222228d8Ba445958a75a0704d566BF2C8";
+  const chainId = process.env.CHAIN_ID ? parseInt(process.env.CHAIN_ID) : 1;
+  const VAULT_ADDRESS = getProtocolAddress("balancer", "vault", chainId);
   const BALANCER_QUERIES = "0xE39B5e3B6D74016b2F6A9673D7d7493B6DF549d5";
   
-  const WETH = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2";
-  const USDC = "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48";
-  const DAI = "0x6B175474E89094C44Da98b954EedeAC495271d0F";
+  const WETH = getTokenAddress("WETH", chainId);
+  const USDC = getTokenAddress("USDC", chainId);
+  const DAI = getTokenAddress("DAI", chainId);
   const BAL = "0xba100000625a3754423978a60c9317c58a424e3D";
   
   const WETH_DAI_POOL = "0x0b09dea16768f0799065c475be02919503cb2a3500020000000000000000001a"; // WETH-DAI 80/20
@@ -91,7 +94,7 @@ async function main() {
         const wethBalance = wethDaiBalances[wethIndex];
         const daiBalance = wethDaiBalances[daiIndex];
         
-        const spotPrice = (daiBalance * BigInt(10 ** wethDecimals)) / (wethBalance * BigInt(10 ** daiDecimals));
+        const spotPrice = (daiBalance * BigInt(10 ** Number(wethDecimals))) / (wethBalance * BigInt(10 ** Number(daiDecimals)));
         
         console.log(`\nSpot Price: 1 WETH = ${formatAmount(spotPrice, 0)} DAI`);
         console.log(`Spot Price: 1 DAI = ${formatAmount(BigInt(10 ** 36) / spotPrice, 18)} WETH`);
@@ -112,7 +115,7 @@ async function main() {
         const wethBalance = wethUsdcBalances[wethIndex];
         const usdcBalance = wethUsdcBalances[usdcIndex];
         
-        const spotPrice = (usdcBalance * BigInt(10 ** wethDecimals)) / (wethBalance * BigInt(10 ** usdcDecimals));
+        const spotPrice = (usdcBalance * BigInt(10 ** Number(wethDecimals))) / (wethBalance * BigInt(10 ** Number(usdcDecimals)));
         
         console.log(`\nSpot Price: 1 WETH = ${formatAmount(spotPrice, 0)} USDC`);
         console.log(`Spot Price: 1 USDC = ${formatAmount(BigInt(10 ** 24) / spotPrice, 18)} WETH`);

@@ -9,7 +9,40 @@ const axios = require("axios");
 async function main() {
   console.log("Getting quotes from 1inch Protocol...");
   
-  const ONEINCH_API_URL = "https://api.1inch.io/v5.0/1";
+  const chainId = process.env.CHAIN_ID ? parseInt(process.env.CHAIN_ID) : 1;
+  
+  const supportedChainIds = [1, 56, 137, 10, 42161, 100, 43114, 250];
+  
+  if (!supportedChainIds.includes(chainId)) {
+    console.log(`Chain ID ${chainId} is not supported by 1inch API. Using fallback simulation.`);
+    
+    console.log("Simulated quotes from 1inch Protocol:");
+    
+    console.log(`\nGetting quote for 1 WETH to USDC...`);
+    console.log(`Quote details:`);
+    console.log(`- Expected output: 2,000 USDC`);
+    console.log(`- Price: 1 WETH = 2,000 USDC`);
+    console.log(`- Gas estimate: 150000`);
+    console.log(`- Protocols used: [["UNISWAP_V3"], ["CURVE"]]`);
+    
+    console.log(`\nGetting quote for 1000 USDC to DAI...`);
+    console.log(`Quote details:`);
+    console.log(`- Expected output: 999.5 DAI`);
+    console.log(`- Price: 1 USDC = 0.9995 DAI`);
+    console.log(`- Gas estimate: 180000`);
+    console.log(`- Protocols used: [["CURVE"]]`);
+    
+    console.log(`\nGetting quote for 10 WETH to WBTC...`);
+    console.log(`Quote details:`);
+    console.log(`- Expected output: 0.6 WBTC`);
+    console.log(`- Price: 1 WETH = 0.06 WBTC`);
+    console.log(`- Gas estimate: 200000`);
+    console.log(`- Protocols used: [["UNISWAP_V3"], ["BALANCER_V2"]]`);
+    
+    return;
+  }
+  
+  const ONEINCH_API_URL = `https://api.1inch.io/v5.0/${chainId}`;
   
   const WETH = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2";
   const USDC = "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48";
@@ -85,7 +118,7 @@ async function main() {
         
         console.log(`Quote details:`);
         console.log(`- Expected output: ${formatAmount(BigInt(quoteData.toAmount), request.toDecimals)} ${request.toSymbol}`);
-        console.log(`- Price: 1 ${request.fromSymbol} = ${formatAmount(BigInt(quoteData.toAmount) * BigInt(10 ** request.fromDecimals) / request.amount, request.toDecimals)} ${request.toSymbol}`);
+        console.log(`- Price: 1 ${request.fromSymbol} = ${formatAmount(BigInt(quoteData.toAmount) * BigInt(10 ** Number(request.fromDecimals)) / request.amount, request.toDecimals)} ${request.toSymbol}`);
         console.log(`- Gas estimate: ${quoteData.estimatedGas}`);
         
         if (quoteData.protocols && quoteData.protocols.length > 0) {
