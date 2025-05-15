@@ -31,6 +31,14 @@ async function main() {
     
     try {
       const chainId = process.env.CHAIN_ID ? parseInt(process.env.CHAIN_ID) : 1;
+      
+      const supportedChainIds = [1, 10, 42161, 137, 56];
+      
+      if (!supportedChainIds.includes(chainId)) {
+        console.log(`Chain ID ${chainId} is not supported by Uniswap API. Using fallback simulation.`);
+        throw new Error("Unsupported chain");
+      }
+      
       const response = await axios.get(`https://api.uniswap.org/v1/pools/v3?chainId=${chainId}&first=5`);
       
       if (response.data && response.data.data && response.data.data.pools) {

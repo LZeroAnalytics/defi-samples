@@ -10,6 +10,14 @@ async function main() {
   console.log("Executing swap on KyberSwap...");
   
   const chainId = process.env.CHAIN_ID ? parseInt(process.env.CHAIN_ID) : 1;
+  
+  const supportedChainIds = [1, 56, 137, 42161, 10, 43114, 250, 25, 1313161554, 1101, 8453, 59144, 324];
+  
+  if (!supportedChainIds.includes(chainId)) {
+    console.log(`Chain ID ${chainId} is not supported by KyberSwap API. Using fallback simulation.`);
+    throw new Error("Unsupported chain");
+  }
+  
   const chainName = chainId === 1 ? "ethereum" : `chain-${chainId}`;
   const KYBERSWAP_API_URL = `https://aggregator-api.kyberswap.com/${chainName}`;
   

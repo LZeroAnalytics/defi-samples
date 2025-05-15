@@ -46,6 +46,14 @@ async function main() {
     console.log(`Getting quote for ${formatAmount(amountIn, tokenInDecimals)} ${tokenInSymbol} to ${tokenOutSymbol}...`);
     
     const chainId = process.env.CHAIN_ID ? parseInt(process.env.CHAIN_ID) : 1;
+    
+    const supportedChainIds = [1, 10, 42161, 137, 56];
+    
+    if (!supportedChainIds.includes(chainId)) {
+      console.log(`Chain ID ${chainId} is not supported by Uniswap API. Using fallback simulation.`);
+      throw new Error("Unsupported chain");
+    }
+    
     const quoteUrl = `https://api.uniswap.org/v1/quote?protocols=v2%2Cv3%2Cmixed&tokenInAddress=${tokenIn}&tokenInChainId=${chainId}&tokenOutAddress=${tokenOut}&tokenOutChainId=${chainId}&amount=${amountIn.toString()}&type=exactIn`;
     
     const quoteResponse = await axios.get(quoteUrl);

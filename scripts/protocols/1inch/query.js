@@ -10,6 +10,14 @@ async function main() {
   console.log("Querying 1inch Protocol information...");
   
   const chainId = process.env.CHAIN_ID ? parseInt(process.env.CHAIN_ID) : 1;
+  
+  const supportedChainIds = [1, 56, 137, 10, 42161, 100, 43114, 250];
+  
+  if (!supportedChainIds.includes(chainId)) {
+    console.log(`Chain ID ${chainId} is not supported by 1inch API. Using fallback simulation.`);
+    throw new Error("Unsupported chain");
+  }
+  
   const ONEINCH_API_URL = `https://api.1inch.io/v5.0/${chainId}`;
   
   const WETH = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2";

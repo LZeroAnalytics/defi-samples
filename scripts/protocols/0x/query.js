@@ -10,6 +10,14 @@ async function main() {
   console.log("Querying 0x Protocol information...");
   
   const chainId = process.env.CHAIN_ID ? parseInt(process.env.CHAIN_ID) : 1;
+  
+  const supportedChainIds = [1, 56, 137, 42161, 10, 43114, 42220, 250];
+  
+  if (!supportedChainIds.includes(chainId)) {
+    console.log(`Chain ID ${chainId} is not supported by 0x API. Using fallback simulation.`);
+    throw new Error("Unsupported chain");
+  }
+  
   const ZRX_API_URL = `https://api.0x.org`;
   
   const WETH = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2";
