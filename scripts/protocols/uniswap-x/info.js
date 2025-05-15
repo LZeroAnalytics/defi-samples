@@ -36,7 +36,15 @@ async function main() {
       
       if (!supportedChainIds.includes(chainId)) {
         console.log(`Chain ID ${chainId} is not supported by Uniswap API. Using fallback simulation.`);
-        throw new Error("Unsupported chain");
+        
+        console.log("\nSimulated Uniswap X information:");
+        console.log("- Universal Router: 0x3fC91A3afd70395Cd496C647d5a6CC9D4B2b7FAD");
+        console.log("- Permit2: 0x000000000022D473030F116dDEE9F6B43aC78BA3");
+        console.log("- Supports limit orders, Dutch auctions, and TWAMM");
+        console.log("- Integrates with Uniswap V2 and V3 liquidity");
+        console.log("- Provides MEV protection through intents-based architecture");
+        
+        return;
       }
       
       const response = await axios.get(`https://api.uniswap.org/v1/pools/v3?chainId=${chainId}&first=5`);
